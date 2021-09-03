@@ -5,7 +5,7 @@ import statsmodels.tsa.seasonal as sm
 import statsmodels.tsa.stattools
 from pandas.core.generic import NDFrame
 from pandas.core.window import Window
-
+from typing import Tuple
 from classes.Trend import Trend
 from classes.Noise import Noise
 
@@ -67,7 +67,7 @@ def noise_analysis(dataframe: pd.DataFrame, series_name: str, num1: int, num2: i
     return Noise(rol1, rol2, series, num1, num2)
 
 
-def rolling_means_std_dev(dataframe: pd.DataFrame, series_name: str, num1: int) -> (Window, Window, pd.Series):
+def rolling_means_std_dev(dataframe: pd.DataFrame, series_name: str, num1: int) -> Tuple[Window, Window, pd.Series]:
     """Perform calculation of rolling mean and rolling standard deviation on given Pandas DataFrame object
     and series name."""
     series = dataframe[series_name]
@@ -76,7 +76,7 @@ def rolling_means_std_dev(dataframe: pd.DataFrame, series_name: str, num1: int) 
     return rolmean, rolstd, series
 
 
-def perform_aug_dickey_fuller(dataframe: pd.DataFrame, series_name: str) -> (pd.Series, float, Window, Window):
+def perform_aug_dickey_fuller(dataframe: pd.DataFrame, series_name: str) -> Tuple[pd.Series, float, Window, Window]:
     """Perform Augmented Dickey Fuller test for data stationary on given Pandas DataFrame and series name."""
     series = dataframe[series_name]
     p_value = statsmodels.tsa.stattools.adfuller(series)[1]

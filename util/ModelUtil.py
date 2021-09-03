@@ -6,11 +6,11 @@ from statsmodels.tsa.arima_model import ARMA, ARIMA
 from statsmodels.tsa.holtwinters import SimpleExpSmoothing, ExponentialSmoothing
 from statsmodels.tsa.statespace.sarimax import SARIMAX
 from tqdm import tqdm
-
+from typing import Tuple
 from util import EvaluationUtil
 
 
-def split_dataset(dataframe: pd.DataFrame, split_date: str) -> (pd.DataFrame, pd.DataFrame):
+def split_dataset(dataframe: pd.DataFrame, split_date: str) -> Tuple[pd.DataFrame, pd.DataFrame]:
     """Split dataset into training and test set based on date provided in format YYYY-MM-DD"""
     df_training = dataframe.loc[dataframe.index <= split_date]
     df_test = dataframe.loc[dataframe.index > split_date]
@@ -155,7 +155,7 @@ def calc_arima(train_set: pd.DataFrame, test_set: pd.DataFrame, dataframe: pd.Da
 
 
 def calc_auto_arima(train_set: pd.DataFrame, test_set: pd.DataFrame, dataframe: pd.DataFrame,
-                    series_name: str, pred_dict: dict, errors_dict: dict) -> (dict, str):
+                    series_name: str, pred_dict: dict, errors_dict: dict) -> Tuple[dict, str]:
     """Calculate using autoARIMA model based on given training and test sets, on given Pandas DataFrame
     and series name. Results are stored into provided dicts with predictions and errors."""
     automodel = pm.auto_arima(train_set[series_name], trace=True, error_action="ignore",
@@ -179,7 +179,7 @@ def calc_auto_arima(train_set: pd.DataFrame, test_set: pd.DataFrame, dataframe: 
 
 
 def calc_sarima(train_set: pd.DataFrame, test_set: pd.DataFrame, dataframe: pd.DataFrame,
-                series_name: str, pred_dict: dict, errors_dict: dict) -> (dict, str):
+                series_name: str, pred_dict: dict, errors_dict: dict) -> Tuple[dict, str]:
     """Calculate using SARIMA model based on given training and test sets, on given Pandas DataFrame
     and series name. Results are stored into provided dicts with predictions and errors."""
     yhat = list()
@@ -201,7 +201,7 @@ def calc_sarima(train_set: pd.DataFrame, test_set: pd.DataFrame, dataframe: pd.D
 
 
 def calc_autosarima(train_set: pd.DataFrame, test_set: pd.DataFrame, dataframe: pd.DataFrame,
-                    series_name: str, pred_dict: dict, errors_dict: dict) -> (dict, str):
+                    series_name: str, pred_dict: dict, errors_dict: dict) -> Tuple[dict, str]:
     """Calculate using autoSARIMA model based on given training and test sets, on given Pandas DataFrame
     and series name. Results are stored into provided dicts with predictions and errors."""
     automodel = pm.auto_arima(train_set[series_name], trace=True, error_action="ignore",
